@@ -4,13 +4,21 @@
 <title>Pretech blog testing web sockets</title>
 </head>
 <body>
-     <div>
-         <input type="text" id="userinput" />
-         <br>
-         <input type="submit" value="Send Message to Server" />
+     <div class="container">
+        <div class="card col-12 screen">
+            <div class="card-block">
+                <p id="messages" class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+        <div class="card col-12 py-3 my-3">
+            <input class="form-control mb-3" type="text" id="userinput" />
+            <input class="col-6 btn btn-success" type="submit" value="Send Message" />
+        </div>
      </div>
-     <div id="messages"></div>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+     <link rel="stylesheet" type="text/css" href="./resources/style.css">
      <script src="./resources/websocket.js"></script>
      <script src="./resources/client.js"></script>
 </body>
