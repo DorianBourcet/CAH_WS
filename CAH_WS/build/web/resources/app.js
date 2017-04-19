@@ -4,5 +4,6 @@
  * and open the template in the editor.
  */
 $('#Login-modal').modal({
-    backdrop: "static"
+    backdrop: "static",
+    show: false
 });

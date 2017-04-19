@@ -24,16 +24,6 @@ public class server {
     /*private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
     private ArrayList joueurStart = new ArrayList();*/
     
-    public String getServerResponse(String msg){
-        switch(msg){
-            case "_new_client":
-                return "Bienvenue ! Choisissez un alias pour commencer une partie !<br>"
-                        + "<input id='alias_field' type='text' placeholder='Alias'><button id='envoyer_alias' type='button'>Envoyer</button>";
-            default:
-        }
-        return "";
-    }
-    
     public Boolean serverProcess(Session se, String msg) throws IOException{
         String commande = msg.split(" ")[0];
         Iterator itr;
@@ -45,8 +35,7 @@ public class server {
                 System.out.println("nbr joueurs avant "+joueurs.size());
                 joueurs.add(unJoueur);
                 System.out.println("nbr joueurs apres "+joueurs.size());*/
-                se.getBasicRemote().sendText("Bienvenue ! Choisissez un alias pour commencer une partie !<br>"
-                        + "<input id='alias_field' type='text' placeholder='Alias'><button id='envoyer_alias' type='button'>Envoyer</button>");
+                se.getBasicRemote().sendText("_display_modal");
                 break;
             case "_alias":
                 System.out.println("session "+se);
