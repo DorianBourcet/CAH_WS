@@ -38,6 +38,11 @@ public class server {
                 System.out.println("nbr joueurs avant "+joueurs.size());
                 joueurs.add(unJoueur);
                 System.out.println("nbr joueurs apres "+joueurs.size());*/
+                System.out.println(se);
+                /*itr = ServerSupport.joueurs.iterator();
+                while(itr.hasNext()){
+                    Joueur j = (Joueur)itr.next();
+                };*/
                 se.getBasicRemote().sendText("_display_modal");
                 break;
             case "_forgot_pwd":
