@@ -2,12 +2,17 @@
 <html>
 <head>
 <title>Pretech blog testing web sockets</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
 </head>
 <body>
      <div class="container">
         <div class="card col-12 screen">
             <div class="card-block">
-                <p id="messages" class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p id="messages" class="card-text"></p>
             </div>
         </div>
         <div class="card col-12 py-3 my-3">
@@ -15,11 +20,33 @@
             <input class="col-6 btn btn-success" type="submit" value="Send Message" />
         </div>
      </div>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<div class="modal fade" id="Login-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content p-3">
+        <h1 class="text-xs-center">
+            Log in
+        </h1>
+        <form> 
+            <div class="input-group py-3">
+                <span class="input-group-addon" id="User"><i class="fa fa-user" aria-hidden="true"></i></span>
+                <input id="user" name="username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" data-toggle="tooltip" data-placement="top" title="Entrez votre nom d'utilisateur">
+            </div>
+            
+            <div class="input-group py-3">
+                <span class="input-group-addon" id="Pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                <input id="pass" name="password" type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" data-toggle="tooltip" data-placement="top" title="Entrez votre password">
+            </div>
+            
+            <input id="login" type="button" class="btn btn-lg btn-danger btn-block" value="connecter">
+        </form>
+    </div>
+  </div>
+</div>
+
+</body>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
      <link rel="stylesheet" type="text/css" href="./resources/style.css">
      <script src="./resources/websocket.js"></script>
      <script src="./resources/client.js"></script>
-</body>
+     <script src="./resources/app.js"></script>
 </html>

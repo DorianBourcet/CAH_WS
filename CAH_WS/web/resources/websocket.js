@@ -17,7 +17,10 @@
     }
 
     function onMessage(event) {
-        document.getElementById('messages').innerHTML += '<br />'
+        if(event.data === "_success_login") {$('#Login-modal').modal('hide');}
+        else if (event.data ==="_error_user") {$('#user').css("border-color","red");}
+        else if (event.data ==="_error_pwd") {$('#pass').css("border-color","red");}
+        else document.getElementById('messages').innerHTML += '<br />'
                 + event.data;
     }
 

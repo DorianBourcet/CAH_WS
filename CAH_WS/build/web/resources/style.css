@@ -11,3 +11,9 @@ and open the template in the editor.
     background-color: black;
     color: white;
 }
+.modal-content{
+    background-color: #252830;
+}
+.modal-content>h1{
+    color: white;
+}
