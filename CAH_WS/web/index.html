@@ -24,8 +24,8 @@
 <div class="modal fade" id="Login-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content p-3">
-        <h1 class="text-xs-center">
-            Log in
+        <h1 class="text-xs-center" id="modal_title">
+            Sign in
         </h1>
         <form> 
             <div class="input-group py-3">
@@ -38,7 +38,16 @@
                 <input id="pass" name="password" type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" data-toggle="tooltip" data-placement="top" title="Entrez votre password">
             </div>
             
+            <div class="input-group py-3 invis" id="email_field">
+                <span class="input-group-addon" id="Pass"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                <input id="email" name="email" type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon2" data-toggle="tooltip" data-placement="top" title="Entrez votre password">
+            </div>
+            
+            
             <input id="login" type="button" class="btn btn-lg btn-danger btn-block" value="connecter">
+            <input id="toggle" type="button" class="btn btn-lg btn-success btn-block" value="S'inscrire">
+            <input id="subscribe" type="button" class="btn btn-lg btn-danger btn-block invis" value="Soumettre">
+
         </form>
     </div>
   </div>

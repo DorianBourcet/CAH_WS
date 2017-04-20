@@ -18,4 +18,10 @@ $(function(){
         $('#user').empty();
         $('#pass').empty();
     });
+    $('#subscribe').on('click', function(){
+        webSocket.send("SUBSCRIBE "+$('#user').val()+" "+$('#pass').val()+" "+$('#email').val());
+        $('#user').empty();
+        $('#pass').empty();
+        $('#email').empty();
+    });
 });

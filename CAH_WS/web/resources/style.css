@@ -17,3 +17,11 @@ and open the template in the editor.
 .modal-content>h1{
     color: white;
 }
+.invis{
+    opacity: 0;
+    height: 0;
+    width: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
