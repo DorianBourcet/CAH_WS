@@ -16,4 +16,10 @@ $(function(){
         webSocket.send("_alias "+$('#alias_field').val());
         $('#messages').empty();
     });
+    $('#login').on('click',function(){
+        webSocket.send("LOGIN "+$('#user').val()+" "+$('#pass').val());
+        $('#user').empty();
+        $('#pass').empty();
+    });
+    
 });

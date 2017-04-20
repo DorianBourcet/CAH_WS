@@ -27,17 +27,8 @@ public class server {
     /*private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
     private ArrayList joueurStart = new ArrayList();*/
     
-    public String getServerResponse(String msg){
-        switch(msg){
-            case "_new_client":
-                return "Bienvenue ! Choisissez un alias pour commencer une partie !<br>"
-                        + "<input id='alias_field' type='text' placeholder='Alias'><button id='envoyer_alias' type='button'>Envoyer</button>";
-            default:
-        }
-        return "";
-    }
-    
     public Boolean serverProcess(Session se, String msg) throws IOException{
+        System.out.println("mdao "+ServerSupport.mdao);
         String commande = msg.split(" ")[0];
         Iterator itr;
         Joueur unJoueur;
@@ -48,12 +39,15 @@ public class server {
                 System.out.println("nbr joueurs avant "+joueurs.size());
                 joueurs.add(unJoueur);
                 System.out.println("nbr joueurs apres "+joueurs.size());*/
-                se.getBasicRemote().sendText("_dislay_modal");
+                se.getBasicRemote().sendText("_display_modal");
+                break;
+            case "_forgot_pwd":
                 break;
             case "LOGIN":
-                MembreDao mdao = new MembreDao(Connexion.getInstance());
-                Membre m = mdao.read(msg.split(" ")[1]);
+                // mdao = new MembreDao(Connexion.getInstance());
+                Membre m = ServerSupport.mdao.read(msg.split(" ")[1]);
                 if (m == null){
+                    se.getBasicRemote().sendText("_error_user");
                 } else if (!(m.getPassword() == msg.split(" ")[2])){
                     se.getBasicRemote().sendText("_error_pwd");
                 } else {

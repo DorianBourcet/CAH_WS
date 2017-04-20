@@ -67,11 +67,11 @@ public class MembreDao extends Dao<Membre> {
                 Membre m = new Membre();
                 m.setId(r.getInt("ID"));  
                 m.setUsername(r.getString("pseudonyme")); 
-                System.out.println(r.getString("pseudonyme"));
+                //System.out.println(r.getString("pseudonyme"));
                 m.setPassword(r.getString("mot_de_passe"));
                 r.close();
                 stm.close();
-                System.out.println(m.toString());
+                //System.out.println(m.toString());
                 return m;
             }
         } catch (SQLException exp) {

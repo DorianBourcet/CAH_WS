@@ -20,7 +20,7 @@ public class TestClass {
      */
     public static void main(String[] args) {
         MembreDao mdao = new MembreDao(Connexion.getInstance());
-        Membre m = mdao.read("Dodo");
+        Membre m = mdao.read("Jycy");
         System.out.println(m.toString());
     }
     
