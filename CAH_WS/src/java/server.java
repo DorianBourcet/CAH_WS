@@ -1,5 +1,7 @@
 
  
+import com.atoudeft.jdbc.Connexion;
+import dao.MembreDao;
 import dao.ServerSupport;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +17,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import model.Blanche;
 import model.Joueur;
+import model.Membre;
 import model.Partie;
 import model.Proposition;
  
@@ -45,21 +48,27 @@ public class server {
                 System.out.println("nbr joueurs avant "+joueurs.size());
                 joueurs.add(unJoueur);
                 System.out.println("nbr joueurs apres "+joueurs.size());*/
-                se.getBasicRemote().sendText("Bienvenue ! Choisissez un alias pour commencer une partie !<br>"
-                        + "<input id='alias_field' type='text' placeholder='Alias'><button id='envoyer_alias' type='button'>Envoyer</button>");
+                se.getBasicRemote().sendText("_dislay_modal");
                 break;
-            case "_alias":
-                System.out.println("session "+se);
-                itr = null;
-                itr = ServerSupport.joueurs.iterator();
-                while(itr.hasNext()){
-                    unJoueur = (Joueur)itr.next();
-                    if (unJoueur.getSession() == se){
-                        System.out.println("dans le if");
-                        unJoueur.setAlias(msg.split(" ")[1]);
+            case "LOGIN":
+                MembreDao mdao = new MembreDao(Connexion.getInstance());
+                Membre m = mdao.read(msg.split(" ")[1]);
+                if (m == null){
+                } else if (!(m.getPassword() == msg.split(" ")[2])){
+                    se.getBasicRemote().sendText("_error_pwd");
+                } else {
+                    se.getBasicRemote().sendText("_success_login");
+                    System.out.println("session "+se);
+                    itr = null;
+                    itr = ServerSupport.joueurs.iterator();
+                    while(itr.hasNext()){
+                        unJoueur = (Joueur)itr.next();
+                        if (unJoueur.getSession() == se){
+                            unJoueur.setAlias(msg.split(" ")[1]);
+                        }
                     }
+                    broadcast(msg.split(" ")[1]+" a rejoint la salle de jeu !","Bienvenue "+msg.split(" ")[1]+" !",se);
                 }
-                broadcast(msg.split(" ")[1]+" a rejoint la salle de jeu !","Bienvenue "+msg.split(" ")[1]+" !",se);
                 break;
             case "START":
                 System.out.println("session "+se);

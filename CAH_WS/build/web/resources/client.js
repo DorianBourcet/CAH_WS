@@ -3,7 +3,7 @@ var required_action = null;
 
 $(function(){
     var webSocket = new WebSocket(
-        'ws://localhost:8080/WebApplication1/websocket');
+        'ws://localhost:8080/CAH_WS/websocket');
     initWebSocket(webSocket);
     $('input[type=submit]').bind('click',function(){
         webSocket.send($('#userinput').val());

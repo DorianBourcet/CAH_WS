@@ -33,7 +33,7 @@ public class Cartes {
         listeBlanches.clear();
         String line;
         try {
-            FileInputStream fis = new FileInputStream(new File("C:/CAH_WS/resources/blanches.txt"));
+            FileInputStream fis = new FileInputStream(new File("C:/Users/soixa/Documents/GitHub/CAH_WS/CAH_WS/resources/blanches.txt"));
             InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(isr);
             while ((line = br.readLine())!= null) {
@@ -49,7 +49,7 @@ public class Cartes {
     public static ArrayList getNoiresFromTxt(){
         String line;
         try {
-            FileInputStream fis = new FileInputStream(new File("C:/CAH_WS/resources/noires.txt"));
+            FileInputStream fis = new FileInputStream(new File("C:/Users/soixa/Documents/GitHub/CAH_WS/CAH_WS/resources/noires.txt"));
             InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(isr);
             while ((line = br.readLine())!= null) {
