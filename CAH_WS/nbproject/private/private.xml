@@ -3,17 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/CAH_WS/src/java/protocol/Protocol.java</file>
-            <file>file:/C:/CAH_WS/web/resources/style.css</file>
             <file>file:/C:/CAH_WS/src/java/server.java</file>
-            <file>file:/C:/CAH_WS/web/resources/websocket.js</file>
             <file>file:/C:/CAH_WS/src/java/com/atoudeft/jdbc/Connexion.java</file>
             <file>file:/C:/CAH_WS/src/java/dao/ServerSupport.java</file>
-            <file>file:/C:/CAH_WS/web/index.html</file>
-            <file>file:/C:/CAH_WS/src/java/email/EmailSessionBean.java</file>
+            <file>file:/C:/CAH_WS/web/WEB-INF/web.xml</file>
             <file>file:/C:/CAH_WS/src/java/TestClass.java</file>
             <file>file:/C:/CAH_WS/src/java/dao/MembreDao.java</file>
-            <file>file:/C:/CAH_WS/web/resources/app.js</file>
         </group>
     </open-files>
 </project-private>

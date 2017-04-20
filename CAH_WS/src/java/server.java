@@ -28,7 +28,6 @@ public class server {
     private ArrayList joueurStart = new ArrayList();*/
     
     public Boolean serverProcess(Session se, String msg) throws IOException{
-        System.out.println("mdao "+ServerSupport.mdao);
         String commande = msg.split(" ")[0];
         Iterator itr;
         Joueur unJoueur;
@@ -44,11 +43,24 @@ public class server {
             case "_forgot_pwd":
                 break;
             case "LOGIN":
-                // mdao = new MembreDao(Connexion.getInstance());
-                Membre m = ServerSupport.mdao.read(msg.split(" ")[1]);
+                
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                MembreDao mdao = new MembreDao(Connexion.getInstance());
+                mdao = new MembreDao(Connexion.getInstance());
+                System.out.println("pseudo : "+msg.split(" ")[1]);
+                Membre m = mdao.read(msg.split(" ")[1]);
+                System.out.println("membre trouve : "+m.toString());
                 if (m == null){
                     se.getBasicRemote().sendText("_error_user");
-                } else if (!(m.getPassword() == msg.split(" ")[2])){
+                } else if (!m.getPassword().equals(msg.split(" ")[2])){
                     se.getBasicRemote().sendText("_error_pwd");
                 } else {
                     se.getBasicRemote().sendText("_success_login");

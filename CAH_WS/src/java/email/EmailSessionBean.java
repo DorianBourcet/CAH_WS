@@ -6,14 +6,14 @@
 package email;
 
 import java.util.Properties;
-import javax.ejb.Stateless;
+//import javax.ejb.Stateless;
 import protocol.Protocol;
 
 /**
  *
  * @author soixa
  */
-@Stateless
+//@Stateless
 public class EmailSessionBean {
 
     private int port = 465;

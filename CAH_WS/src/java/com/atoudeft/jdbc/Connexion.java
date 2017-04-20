@@ -14,8 +14,8 @@ import java.sql.SQLException;
 
 public class Connexion {
 	private static Connection cnx;
-	private static String 	url = "jdbc:mysql://localhost:9090/cardsagainsthumanity",
-				user = "root", password="root";
+	private static String 	url = "",//"jdbc:mysql://localhost/cardsagainsthumanity",
+				user = "", password="";
 	public static Connection getInstance()
 	{
             if (cnx == null)

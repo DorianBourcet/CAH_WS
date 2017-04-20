@@ -18,5 +18,5 @@ public class ServerSupport {
     public static ArrayList joueurStart = new ArrayList();
     public static boolean partieCommencer = false;
     public static Partie partie;
-    public static MembreDao mdao = new MembreDao(Connexion.getInstance());
+    //public static MembreDao mdao = new MembreDao(Connexion.getInstance());
 }
