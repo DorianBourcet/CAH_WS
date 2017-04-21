@@ -25,7 +25,11 @@
             case "_error_user": $('#user').css("border-color","red");break;
             case "_error_pwd": $('#pass').css("border-color","red");break;
             case "_display_modal": $('#Login-modal').modal('show');break;
-            default: document.getElementById('messages').innerHTML = event.data;
+            default: {
+                    $('#messages').append("<br>"+event.data);
+                    $('.screen').animate({scrollTop: $('.screen').prop("scrollHeight") - $('.screen').height() },100);
+                    break;
+            }
         }
     }
 

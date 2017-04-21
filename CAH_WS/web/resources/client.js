@@ -13,7 +13,6 @@ $(function(){
     });
     $('#sndMessage').on('click',function(){
         var cmd = $('#someMessage').val().split(" ");
-        console.log(cmd[0]+" "+cmd[1]+" "+cmd[2]);
         webSocket.send(cmd[0]+" "+cmd[1]+" "+cmd[2]);
         $('#user').empty();
         $('#pass').empty();
@@ -23,5 +22,10 @@ $(function(){
         $('#user').empty();
         $('#pass').empty();
         $('#email').empty();
+    });
+    $('#logout').on('click', function(){
+        webSocket.send("LOGOUT");
+        $('#Login-modal').modal('show');
+        $('#messages').html("");
     });
 });

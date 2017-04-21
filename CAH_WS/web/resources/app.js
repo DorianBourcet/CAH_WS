@@ -13,10 +13,11 @@ $('#toggle').on('click', function(){
     $('#email_field').toggleClass('invis');
     if($('#toggle').val() === "S'inscrire") {
         $('#toggle').val("Se connecter");
-        $('#modal_title').html("Sign up")
+        $('#modal_title').html("Sign up");
     }
     else {
         $('#toggle').val("S'inscrire");
-        $('#modal_title').html("Sign in")
+        $('#modal_title').html("Sign in");
     }
 });
+$('.screen').animate({scrollTop: $('.screen').prop("scrollHeight") - $('.screen').height() });
