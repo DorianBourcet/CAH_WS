@@ -8,6 +8,7 @@ $('#Login-modal').modal({
     show: false
 });
 $('#toggle').on('click', function(){
+    $('#pass').css("border-color", "rgba(0, 0, 0, 0.14902)");
     $('#subscribe').toggleClass('invis');
     $('#login').toggleClass('invis');
     $('#email_field').toggleClass('invis');

@@ -8,8 +8,7 @@ $(function(){
     
     $('#login').on('click',function(){
         webSocket.send("LOGIN "+$('#user').val()+" "+$('#pass').val());
-        $('#user').empty();
-        $('#pass').empty();
+        $('#pass').val("");
     });
     $('#sndMessage').on('click',function(){
         var cmd = $('#someMessage').val().split(" ");
