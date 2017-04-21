@@ -243,7 +243,7 @@ public class server {
                 System.out.println("dans default");  
         }
         //Initialisation d'une partie
-        if (ServerSupport.joueurs.size() == ServerSupport.joueurStart.size() && ServerSupport.partieCommencer == false){
+        if ((ServerSupport.joueurs.size() == ServerSupport.joueurStart.size()) && (ServerSupport.joueurs.size() > 2) && ServerSupport.partieCommencer == false){
             initiatePartie();
         }
         return false;
@@ -308,7 +308,6 @@ public class server {
             InterruptedException {
         System.out.println("User input: " + message);
         serverProcess(session, message);
-        System.out.println("nbr joueurs "+ServerSupport.joueurs.size());
     }
  
     @OnOpen

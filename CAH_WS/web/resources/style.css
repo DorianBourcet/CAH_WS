@@ -10,6 +10,8 @@ and open the template in the editor.
 .screen{
     background-color: black;
     color: white;
+    height: 400px;
+    overflow-y: auto;
 }
 .modal-content{
     background-color: #252830;
@@ -17,3 +19,11 @@ and open the template in the editor.
 .modal-content>h1{
     color: white;
 }
+.invis{
+    opacity: 0;
+    height: 0;
+    width: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
