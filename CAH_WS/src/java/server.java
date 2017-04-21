@@ -1,6 +1,9 @@
 
  
+import com.atoudeft.jdbc.Connexion;
+import dao.MembreDao;
 import dao.ServerSupport;
+import email.EmailSessionBean;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +18,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import model.Blanche;
 import model.Joueur;
+import model.Membre;
 import model.Partie;
 import model.Proposition;
  
@@ -28,27 +32,83 @@ public class server {
         String commande = msg.split(" ")[0];
         Iterator itr;
         Joueur unJoueur;
+        MembreDao mdao;
+        Membre m;
         switch(commande){
             case "_new_client":
-                /*System.out.println("session "+se);
-                unJoueur = new Joueur(se);
-                System.out.println("nbr joueurs avant "+joueurs.size());
-                joueurs.add(unJoueur);
-                System.out.println("nbr joueurs apres "+joueurs.size());*/
+                System.out.println(se);
                 se.getBasicRemote().sendText("_display_modal");
                 break;
-            case "_alias":
-                System.out.println("session "+se);
-                itr = null;
-                itr = ServerSupport.joueurs.iterator();
-                while(itr.hasNext()){
-                    unJoueur = (Joueur)itr.next();
-                    if (unJoueur.getSession() == se){
-                        System.out.println("dans le if");
-                        unJoueur.setAlias(msg.split(" ")[1]);
-                    }
+            case "SUBSCRIBE":
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
                 }
-                broadcast(msg.split(" ")[1]+" a rejoint la salle de jeu !","Bienvenue "+msg.split(" ")[1]+" !",se);
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                mdao = new MembreDao(Connexion.getInstance());
+                if (msg.split(" ").length != 4){
+                    se.getBasicRemote().sendText("_error_subscribe_missing_datas");
+                } 
+                Boolean created = mdao.create(new Membre(msg.split(" ")[1],msg.split(" ")[2],msg.split(" ")[3]));
+                if (created){
+                    se.getBasicRemote().sendText("_success_subscribe");
+                } else {
+                    se.getBasicRemote().sendText("_error_subscribe_database");
+                }
+                break;
+            case "FORGOT":
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                mdao = new MembreDao(Connexion.getInstance());
+                m = mdao.readByMail(msg.split(" ")[1]);
+                if (m == null){
+                    se.getBasicRemote().sendText("_error_email");
+                } else {
+                    se.getBasicRemote().sendText("_success_email");
+                    EmailSessionBean eb = new EmailSessionBean();
+                    eb.sendMail(msg.split(" ")[1],"Cards Against Humanity - Mot de passe oublié",
+                            "Hey "+m.getUsername()
+                            +" !\nOn nous a dit que tu avais oublié ton mot de passe pour jouer à Cards Agains Humanity !\nLe voici : "
+                            +m.getPassword());
+                }
+                break;
+            case "LOGIN":
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                mdao = new MembreDao(Connexion.getInstance());
+                System.out.println("pseudo : "+msg.split(" ")[1]);
+                m = mdao.read(msg.split(" ")[1]);
+                System.out.println("membre trouve : "+m.toString());
+                if (m == null){
+                    se.getBasicRemote().sendText("_error_user");
+                } else if (!m.getPassword().equals(msg.split(" ")[2])){
+                    se.getBasicRemote().sendText("_error_pwd");
+                } else {
+                    se.getBasicRemote().sendText("_success_login");
+                    System.out.println("session "+se);
+                    unJoueur = new Joueur(msg.split(" ")[1],se);
+                    ServerSupport.joueurs.add(unJoueur);
+                    System.out.println("nbr joueurs "+ServerSupport.joueurs.size());
+                    broadcast(msg.split(" ")[1]+" a rejoint la salle de jeu !","Bienvenue "+msg.split(" ")[1]+" !",se);
+                }
                 break;
             case "START":
                 System.out.println("session "+se);
@@ -124,7 +184,7 @@ public class server {
                             this.broadcast(ServerSupport.partie.getJoueur(ServerSupport.partie.getProposition((Integer.parseInt(msg.trim())-1)).getSession()).getAlias()+" a gagner");
                             ServerSupport.partie = null;
                             ServerSupport.joueurStart = new ArrayList();
-                            //nbrJoueurStart = 0;
+                            ServerSupport.partieCommencer = false;
                         }else{
                             ServerSupport.partie.pigerCartes();
                             if (!ServerSupport.partie.nextJoueur()){
@@ -162,11 +222,28 @@ public class server {
                     }
                 }
                 break;
+            case "LOGOUT":
+                itr = ServerSupport.joueurs.iterator();
+                while(itr.hasNext()){
+                    Joueur j = (Joueur)itr.next();
+                    if (j.getSession() == se){
+                        ServerSupport.joueurs.remove(j);
+                        ServerSupport.joueurStart.remove(j);
+                    }
+                }
+                break;
+            case "AIDE":
+                String help = "=== AIDE ===\n"
+                        + "Commandes disponibles\n"
+                        + " - START pour démarrer une partie\n"
+                        + " - CHAT suivi du message à envoyer aux autres joueurs\n";
+                se.getBasicRemote().sendText(help);
+                break;
             default:
                 System.out.println("dans default");  
         }
         //Initialisation d'une partie
-        if (ServerSupport.joueurs.size() == ServerSupport.joueurStart.size() && ServerSupport.partieCommencer == false){
+        if ((ServerSupport.joueurs.size() == ServerSupport.joueurStart.size()) && (ServerSupport.joueurs.size() > 2) && ServerSupport.partieCommencer == false){
             initiatePartie();
         }
         return false;
@@ -231,19 +308,23 @@ public class server {
             InterruptedException {
         System.out.println("User input: " + message);
         serverProcess(session, message);
-        System.out.println("nbr joueurs "+ServerSupport.joueurs.size());
     }
  
     @OnOpen
     public void onOpen(Session session) {
         System.out.println("Client connected");
-        Joueur unJoueur = new Joueur(session);
-        ServerSupport.joueurs.add(unJoueur);
-        System.out.println("nbr joueurs "+ServerSupport.joueurs.size());
     }
  
     @OnClose
     public void onClose(Session session) {
+        Iterator itr = ServerSupport.joueurs.iterator();
+        while(itr.hasNext()){
+            Joueur j = (Joueur)itr.next();
+            if (j.getSession() == session){
+                ServerSupport.joueurs.remove(j);
+                ServerSupport.joueurStart.remove(j);
+            }
+        }
         System.out.println("Connection closed");
     }
 }
