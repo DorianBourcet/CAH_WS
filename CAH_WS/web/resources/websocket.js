@@ -17,12 +17,20 @@
     }
 
     function onMessage(event) {
-        if(event.data === "_success_login") {$('#Login-modal').modal('hide');}
-        else if (event.data ==="_error_user") {$('#user').css("border-color","red");}
-        else if (event.data ==="_error_pwd") {$('#pass').css("border-color","red");}
-        else if (event.data ==="_display_modal"){$('#Login-modal').modal('show');}
-        else document.getElementById('messages').innerHTML += '<br />'
-                + event.data;
+        
+        var response = event.data;
+        console.log(response.trim());
+        switch(event.data){
+            case "_success_login": $('#Login-modal').modal('hide');break;
+            case "_error_user": $('#user').css("border-color","red");break;
+            case "_error_pwd": $('#pass').css("border-color","red");break;
+            case "_display_modal": $('#Login-modal').modal('show');break;
+            default: {
+                    $('#messages').append("<br>"+event.data);
+                    $('.screen').animate({scrollTop: $('.screen').prop("scrollHeight") - $('.screen').height() },100);
+                    break;
+            }
+        }
     }
 
     function onOpen(event) {
