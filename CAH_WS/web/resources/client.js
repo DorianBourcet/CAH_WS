@@ -27,4 +27,8 @@ $(function(){
         $('#Login-modal').modal('show');
         $('#messages').html("");
     });
+    $('#send').on('click', function(){
+        //ENVOYER EMAIL ICI AVEC LA VALEUR DE $('#email').val()
+        webSocket.send("FORGOT "+$('#email').val());
+    });
 });
