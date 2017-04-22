@@ -31,4 +31,14 @@ $(function(){
         //ENVOYER EMAIL ICI AVEC LA VALEUR DE $('#email').val()
         webSocket.send("FORGOT "+$('#email').val());
     });
+    $('#send-new-password').on('click', function(){
+        if($('#newPass').val() === $('#newPassConfirm').val()){
+            webSocket.send("NEWPASS "+$('#newPass').val());
+            $('#newPass').css("border-color","green");
+            $('#newPassConfirm').css("border-color","green");
+        }
+        else {
+            $('#newPassConfirm').css("border-color","red");
+        }
+    });
 });
