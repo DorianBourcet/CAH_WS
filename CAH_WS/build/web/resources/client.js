@@ -8,8 +8,7 @@ $(function(){
     
     $('#login').on('click',function(){
         webSocket.send("LOGIN "+$('#user').val()+" "+$('#pass').val());
-        $('#user').empty();
-        $('#pass').empty();
+        $('#pass').val("");
     });
     $('#sndMessage').on('click',function(){
         var cmd = $('#someMessage').val().split(" ");
@@ -27,5 +26,19 @@ $(function(){
         webSocket.send("LOGOUT");
         $('#Login-modal').modal('show');
         $('#messages').html("");
+    });
+    $('#send').on('click', function(){
+        //ENVOYER EMAIL ICI AVEC LA VALEUR DE $('#email').val()
+        webSocket.send("FORGOT "+$('#email').val());
+    });
+    $('#send-new-password').on('click', function(){
+        if($('#newPass').val() === $('#newPassConfirm').val()){
+            webSocket.send("NEWPASS "+$('#newPass').val()+" "+$('#token').val());
+            $('#newPass').css("border-color","green");
+            $('#newPassConfirm').css("border-color","green");
+        }
+        else {
+            $('#newPassConfirm').css("border-color","red");
+        }
     });
 });

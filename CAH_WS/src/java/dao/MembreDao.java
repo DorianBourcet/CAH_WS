@@ -11,6 +11,7 @@ package dao;
 
 
 import com.atoudeft.jdbc.dao.Dao;
+import java.io.UnsupportedEncodingException;
 import model.Membre;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -71,6 +72,7 @@ public class MembreDao extends Dao<Membre> {
                 m.setUsername(r.getString("pseudonyme")); 
                 //System.out.println(r.getString("pseudonyme"));
                 m.setPassword(r.getString("mot_de_passe"));
+                m.setScore(r.getInt("score"));
                 r.close();
                 stm.close();
                 //System.out.println(m.toString());
@@ -117,6 +119,136 @@ public class MembreDao extends Dao<Membre> {
             }
         }
         return null;
+    }
+    
+    public Membre readByAlias(String alias) {
+        PreparedStatement stm = null;
+        try {
+            stm = cnx.prepareStatement("SELECT * FROM membres WHERE pseudonyme = ?");
+            stm.setString(1,alias);
+            ResultSet r = stm.executeQuery();
+            if (r.next()) {
+                Membre m = new Membre();
+                m.setId(r.getInt("ID"));  
+                m.setUsername(r.getString("pseudonyme")); 
+                m.setScore(r.getInt("score"));
+                r.close();
+                stm.close();
+                return m;
+            }
+        } catch (SQLException exp) {
+        } finally {
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    
+    public boolean updateUniqueID(Membre m) {
+     Statement stm = null;
+        try {
+            String req = "UPDATE membres SET "
+                +"uniqueID = '"+m.getUniqueID()+"'" 
+                +" WHERE ID = '"+m.getId()+"'";
+            stm = cnx.createStatement();
+            int n = stm.executeUpdate(req);
+            if (n > 0) {
+                stm.close();
+                return true;
+            }
+        } catch (SQLException exp) {
+        } finally {
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean updatePassword(Membre m) {
+     Statement stm = null;
+        try {
+            String req = "UPDATE membres SET "
+                +"mot_de_passe = '"+m.getPassword()+"'" 
+                +" WHERE uniqueID = '"+m.getUniqueID()+"'";
+            stm = cnx.createStatement();
+            int n = stm.executeUpdate(req);
+            if (n > 0) {
+                stm.close();
+                return true;
+            }
+        } catch (SQLException exp) {
+        } finally {
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean updateScore(Membre m) {
+     Statement stm = null;
+        try {
+            String req = "UPDATE membres SET "
+                +"score = '"+m.getScore()+"'" 
+                +" WHERE ID = '"+m.getId()+"'";
+            stm = cnx.createStatement();
+            int n = stm.executeUpdate(req);
+            if (n > 0) {
+                stm.close();
+                return true;
+            }
+        } catch (SQLException exp) {
+        } finally {
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+    
+    public List<Membre> findHighScores() {
+        List<Membre> liste = new LinkedList<>();
+        PreparedStatement stm = null;
+        try 
+            {
+                stm = cnx.prepareStatement("select * from membre "
+                        + "Order by 6 desc LIMIT 0, 10");
+                ResultSet r = stm.executeQuery();
+                while (r.next())
+                {
+                    Membre m = new Membre();
+                    m.setUsername(r.getString("pseudonyme"));
+                    m.setScore(r.getInt("score"));
+                    liste.add(m);
+                }
+                r.close();
+                stm.close();
+            }
+            catch (SQLException exp) {
+            }
+            return liste;
     }
 
     @Override
