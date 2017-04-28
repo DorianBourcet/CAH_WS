@@ -11,8 +11,8 @@ package model;
  */
 public class Membre {
     
-    private int id;
-    private String username, password, email;
+    private int id, score;
+    private String username, password, email, uniqueid;
 
     public Membre() {
     }
@@ -26,6 +26,21 @@ public class Membre {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+    
+    public Membre(String username, String password, String email, String uniqueid) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.uniqueid = uniqueid;
+    }
+    
+    public Membre(String username, String password, String email, String uniqueid, int score) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.uniqueid = uniqueid;
+        this.score = score;
     }
 
     public Membre(int id) {
@@ -64,6 +79,25 @@ public class Membre {
         this.email = email;
     }
     
+    public String getUniqueID() {
+        return uniqueid;
+    }
+
+    public void setUniqueID(String uid) {
+        this.uniqueid = uid;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    public void incrementerScore() {
+        this.score++;
+    }
     
     @Override
     public String toString() {

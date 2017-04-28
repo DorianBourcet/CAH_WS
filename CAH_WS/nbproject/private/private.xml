@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/CAH_WS/CAH_WS/src/java/dao/MembreDao.java</file>
+            <file>file:/C:/CAH_WS/CAH_WS/web/resources/websocket.js</file>
+            <file>file:/C:/CAH_WS/CAH_WS/src/java/TestClass.java</file>
+            <file>file:/C:/CAH_WS/CAH_WS/src/java/model/Membre.java</file>
+            <file>file:/C:/CAH_WS/CAH_WS/src/java/server.java</file>
+            <file>file:/C:/CAH_WS/CAH_WS/web/resources/client.js</file>
+            <file>file:/C:/CAH_WS/CAH_WS/src/java/dao/Cartes.java</file>
+            <file>file:/C:/CAH_WS/CAH_WS/src/java/model/Joueur.java</file>
+        </group>
     </open-files>
 </project-private>

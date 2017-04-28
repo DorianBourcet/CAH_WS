@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
  
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -75,13 +76,33 @@ public class server {
                 if (m == null){
                     se.getBasicRemote().sendText("_error_email");
                 } else {
+                    m.setUniqueID(""+UUID.randomUUID());
+                    mdao.updateUniqueID(m);
                     se.getBasicRemote().sendText("_success_email");
                     EmailSessionBean eb = new EmailSessionBean();
-                    eb.sendMail(msg.split(" ")[1],"Cards Against Humanity - Mot de passe oublié",
+                    eb.sendMail(msg.split(" ")[1],"Cards Against Humanity - Réinitialisation",
                             "Hey "+m.getUsername()
-                            +" !\nOn nous a dit que tu avais oublié ton mot de passe pour jouer à Cards Agains Humanity !\nLe voici : "
-                            +m.getPassword());
+                            +" !\nOn nous a dit que tu avais oublié ton mot de passe pour jouer à Cards Agains Humanity !"
+                            + "\nClique ici pour le réinitialiser : http://localhost:8080/CAH_WS/newpassword.html"
+                            + "\nEntre le code : "
+                            +m.getUniqueID());
                 }
+                break;
+            case "NEWPASS":
+                m = new Membre();
+                m.setPassword(msg.split(" ")[1]);
+                m.setUniqueID(msg.split(" ")[2]);
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                mdao = new MembreDao(Connexion.getInstance());
+                mdao.updatePassword(m);
                 break;
             case "LOGIN":
                 try {
@@ -182,6 +203,19 @@ public class server {
                         if (ServerSupport.partie.getJoueur(ServerSupport.partie.getProposition((Integer.parseInt(msg.split(" ")[1]))-1).getSession()).getScore()>=5) {
                             ServerSupport.partieCommencer = false;
                             this.broadcast(ServerSupport.partie.getJoueur(ServerSupport.partie.getProposition((Integer.parseInt(msg.trim())-1)).getSession()).getAlias()+" a gagner");
+                            try {
+                                Class.forName("com.mysql.jdbc.Driver");
+                            } catch (ClassNotFoundException ex) {
+                                //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                                System.out.println("ERROR! Driver not found");
+                            }
+                            Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                            Connexion.setUser("root");
+                            Connexion.setPassword("root");
+                            mdao = new MembreDao(Connexion.getInstance());
+                            m = mdao.readByAlias(ServerSupport.partie.getJoueur(ServerSupport.partie.getProposition((Integer.parseInt(msg.trim())-1)).getSession()).getAlias());
+                            m.incrementerScore();
+                            mdao.updateScore(m);
                             ServerSupport.partie = null;
                             ServerSupport.joueurStart = new ArrayList();
                             ServerSupport.partieCommencer = false;
@@ -238,6 +272,27 @@ public class server {
                         + " - START pour démarrer une partie\n"
                         + " - CHAT suivi du message à envoyer aux autres joueurs\n";
                 se.getBasicRemote().sendText(help);
+                break;
+            case "HIGHSCORES":
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                mdao = new MembreDao(Connexion.getInstance());
+                ArrayList highscores = (ArrayList)mdao.findHighScores();
+                Iterator it = highscores.iterator();
+                String scores = "Meilleurs scores :<ol>";
+                while(it.hasNext()){
+                    Membre unMembre = (Membre)it.next();
+                    scores+="<li>"+unMembre.getUsername()+" - "+unMembre.getScore()+"</li>";
+                }
+                scores+="</ol>";
+                se.getBasicRemote().sendText(scores);
                 break;
             default:
                 System.out.println("dans default");  

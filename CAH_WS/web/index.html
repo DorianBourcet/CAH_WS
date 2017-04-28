@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Pretech blog testing web sockets</title>
+<title>Cards Against Humanity</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
@@ -28,12 +28,12 @@
             Sign in
         </h1>
         <form> 
-            <div class="input-group py-3">
+            <div class="input-group py-3" id="usr">
                 <span class="input-group-addon" id="User"><i class="fa fa-user" aria-hidden="true"></i></span>
                 <input id="user" name="username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" data-toggle="tooltip" data-placement="top" title="Entrez votre nom d'utilisateur">
             </div>
             
-            <div class="input-group py-3">
+            <div class="input-group py-3" id="psw">
                 <span class="input-group-addon" id="Pass"><i class="fa fa-lock" aria-hidden="true"></i></span>
                 <input id="pass" name="password" type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon2" data-toggle="tooltip" data-placement="top" title="Entrez votre password">
             </div>
@@ -42,8 +42,8 @@
                 <span class="input-group-addon" id="Pass"><i class="fa fa-envelope" aria-hidden="true"></i></span>
                 <input id="email" name="email" type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon2" data-toggle="tooltip" data-placement="top" title="Entrez votre password">
             </div>
-            
-            
+            <input id="send" type="button" class="btn btn-danger btn-lg btn-block invis" value ="Envoyer">
+            <input id="forgot" type="button" class="btn btn-warning btn-lg btn-block" value="Forgot password">
             <input id="login" type="button" class="btn btn-lg btn-danger btn-block" value="connecter">
             <input id="toggle" type="button" class="btn btn-lg btn-success btn-block" value="S'inscrire">
             <input id="subscribe" type="button" class="btn btn-lg btn-danger btn-block invis" value="Soumettre">

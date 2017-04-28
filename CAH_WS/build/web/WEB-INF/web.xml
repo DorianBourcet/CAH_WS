@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <description>La chaine du pilote JDBC utilisé pour se connecter à la BD.</description>
+        <param-name>piloteJdbc</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <description>L'URL de la BD pour les connexions JDBC.</description>
+        <param-name>urlBd</param-name>
+        <param-value>jdbc:mysql://localhost/cardsagainsthumanity?user=root&amp;password=root</param-value>
+    </context-param>
+</web-app>
