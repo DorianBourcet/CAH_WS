@@ -13,8 +13,14 @@ import java.io.Serializable;
  */
 public class Blanche implements Serializable {
     private String texte;
+    private int id;
 
     public Blanche(String texte){
+        this.texte = texte;
+    }
+    
+    public Blanche(int id,String texte){
+        this.id = id;
         this.texte = texte;
     }
     
@@ -29,5 +35,15 @@ public class Blanche implements Serializable {
     public void setTexte(String texte) {
         this.texte = texte;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     
 }
