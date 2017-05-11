@@ -37,11 +37,11 @@ target/
 .project
 
 # NetBeans specific
-CAH_WS/nbproject/private/
-CAH_WS/build/
-CAH_WS/nbbuild/
-CAH_WS/dist/
-CAH_WS/nbdist/
+CAH_WS/nbproject/private/*
+CAH_WS/build/*
+CAH_WS/nbbuild/*
+CAH_WS/dist/*
+CAH_WS/nbdist/*
 CAH_WS/nbactions.xml
 CAH_WS/nb-configuration.xml
 CAH_WS/src/java/TestClass.java
