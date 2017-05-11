@@ -54,7 +54,7 @@ public class BlancheDao extends Dao<Blanche> {
                 ResultSet r = stm.executeQuery();
                 while (r.next())
                 {
-                    Blanche b = new Blanche(r.getString("Texte"));
+                    Blanche b = new Blanche(r.getInt("ID"),r.getString("Texte"));
                     liste.add(b);
                 }
                 r.close();

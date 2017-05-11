@@ -52,9 +52,10 @@ public class NoireDao extends Dao<Noire> {
             {
                 stm = cnx.prepareStatement("select * from cartes_noires");
                 ResultSet r = stm.executeQuery();
+                Noire n;
                 while (r.next())
                 {
-                    Noire n = new Noire(r.getString("Texte"),r.getInt("Piger"));
+                    n = new Noire(r.getInt("ID"),r.getString("Texte"),r.getInt("Piger"));
                     liste.add(n);
                 }
                 r.close();

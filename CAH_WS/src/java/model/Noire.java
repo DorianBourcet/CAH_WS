@@ -12,9 +12,16 @@ import java.io.Serializable;
  * @author soixa
  */
 public class Noire implements Serializable {
+    private int id;
     private String texte;
     private int piger;
 
+    public Noire(int id,String texte, int piger) {
+        this.id = id;
+        this.texte = texte;
+        this.piger = piger;
+    }
+    
     public Noire(String texte, int piger) {
         this.texte = texte;
         this.piger = piger;
@@ -43,4 +50,14 @@ public class Noire implements Serializable {
     public String toString(){
         return "TEXTE : "+this.texte+"\nPIGER : "+this.piger;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 }

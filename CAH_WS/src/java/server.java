@@ -22,8 +22,11 @@ import javax.websocket.server.ServerEndpoint;
 import model.Blanche;
 import model.Joueur;
 import model.Membre;
+import model.Noire;
 import model.Partie;
 import model.Proposition;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
  
 @ServerEndpoint("/websocket")
 public class server {
@@ -41,6 +44,48 @@ public class server {
             case "_new_client":
                 System.out.println(se);
                 se.getBasicRemote().sendText("_display_modal");
+                break;
+            case "GET_JSON":
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                ArrayList cards;
+                Iterator itra;
+                JSONArray list = new JSONArray();
+                if (msg.split(" ")[1] == "BLANCHES"){
+                    BlancheDao bdao = new BlancheDao(Connexion.getInstance());
+                    cards = (ArrayList) bdao.findAll();
+                    itra = cards.iterator();
+                    Blanche b;
+                    while(itra.hasNext()){
+                        b = (Blanche) itra.next();
+                        JSONObject obj = new JSONObject();
+                        obj.put("id",b.getId());
+                        obj.put("texte",b.getTexte());
+                        list.add(obj);
+                    }
+                } else if (msg.split(" ")[1] == "NOIRES"){
+                    NoireDao ndao = new NoireDao(Connexion.getInstance());
+                    cards = (ArrayList) ndao.findAll();
+                    itra = cards.iterator();
+                    Noire n;
+                    while(itra.hasNext()){
+                        n = (Noire) itra.next();
+                        JSONObject obj = new JSONObject();
+                        obj.put("id",n.getId());
+                        obj.put("texte",n.getTexte());
+                        obj.put("piger",n.getPiger());
+                        list.add(obj);
+                    }
+                }
+                System.out.println(list.toJSONString());
+                se.getBasicRemote().sendText(list.toJSONString());
                 break;
             case "SUBSCRIBE":
                 try {
