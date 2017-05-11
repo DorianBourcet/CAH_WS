@@ -1,7 +1,9 @@
 
  
 import com.atoudeft.jdbc.Connexion;
+import dao.BlancheDao;
 import dao.MembreDao;
+import dao.NoireDao;
 import dao.ServerSupport;
 import email.EmailSessionBean;
 import java.io.File;
@@ -334,6 +336,20 @@ public class server {
        return blancheDeck;
     }
     private void initiatePartie() throws IOException {
+        // Getting cards from database
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR! Driver not found");
+        }
+        Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+        Connexion.setUser("root");
+        Connexion.setPassword("root");
+        BlancheDao bdao = new BlancheDao(Connexion.getInstance());
+        ServerSupport.listeBlanches = (ArrayList) bdao.findAll();
+        NoireDao ndao = new NoireDao(Connexion.getInstance());
+        ServerSupport.listeNoires = (ArrayList) ndao.findAll();
         ServerSupport.partieCommencer = true;
         ServerSupport.partie = new Partie(ServerSupport.joueurStart.size());
         ServerSupport.partie.setJoueurs(ServerSupport.joueurStart);

@@ -5,7 +5,8 @@
  */
 package model;
 
-import dao.Cartes;
+//import dao.Cartes;
+import dao.ServerSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,21 +55,21 @@ public class Partie {
    
     public void melangeCartes(){
         // initialisation des cartes à partir des fichiers .txt
-        Cartes.getBlanchesFromTxt();
-        Cartes.getNoiresFromTxt();
+        //Cartes.getBlanchesFromTxt();
+        //Cartes.getNoiresFromTxt();
         // Mix up the white cards
         do{
-            int randomCard = (int)(Math.random()* Cartes.listeBlanches.size());
-            stackBlanche.add(Cartes.listeBlanches.get(randomCard));
-            Cartes.listeBlanches.remove(randomCard);
-        }while(!Cartes.listeBlanches.isEmpty());
+            int randomCard = (int)(Math.random()* ServerSupport.listeBlanches.size());
+            stackBlanche.add(ServerSupport.listeBlanches.get(randomCard));
+            ServerSupport.listeBlanches.remove(randomCard);
+        }while(!ServerSupport.listeBlanches.isEmpty());
 
         // Mix up the black cards
         do{
-            int randomCard = (int)(Math.random()* Cartes.listeNoires.size());
-            stackNoire.add(Cartes.listeNoires.get(randomCard));
-            Cartes.listeNoires.remove(randomCard);
-        }while(!Cartes.listeNoires.isEmpty());
+            int randomCard = (int)(Math.random()* ServerSupport.listeNoires.size());
+            stackNoire.add(ServerSupport.listeNoires.get(randomCard));
+            ServerSupport.listeNoires.remove(randomCard);
+        }while(!ServerSupport.listeNoires.isEmpty());
     }
     
     public void distribuerCartes(){
