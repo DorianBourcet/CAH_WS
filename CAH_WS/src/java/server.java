@@ -27,6 +27,8 @@ import model.Partie;
 import model.Proposition;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
  
 @ServerEndpoint("/websocket")
 public class server {
@@ -34,8 +36,9 @@ public class server {
     /*private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
     private ArrayList joueurStart = new ArrayList();*/
     
-    public Boolean serverProcess(Session se, String msg) throws IOException{
+    public Boolean serverProcess(Session se, String msg) throws IOException, ParseException{
         String commande = msg.split(" ")[0];
+        System.out.println("Commande : "+commande);
         Iterator itr;
         Joueur unJoueur;
         MembreDao mdao;
@@ -58,25 +61,27 @@ public class server {
                 ArrayList cards;
                 Iterator itra;
                 JSONArray list = new JSONArray();
-                if (msg.split(" ")[1] == "BLANCHES"){
+                if (msg.split(" ")[1].equals("BLANCHES")){
                     BlancheDao bdao = new BlancheDao(Connexion.getInstance());
                     cards = (ArrayList) bdao.findAll();
                     itra = cards.iterator();
                     Blanche b;
                     while(itra.hasNext()){
-                        b = (Blanche) itra.next();
                         JSONObject obj = new JSONObject();
+                        b = (Blanche) itra.next();
                         obj.put("id",b.getId());
                         obj.put("texte",b.getTexte());
                         list.add(obj);
                     }
-                } else if (msg.split(" ")[1] == "NOIRES"){
+                } else if (msg.split(" ")[1].equals("NOIRES")){
                     NoireDao ndao = new NoireDao(Connexion.getInstance());
                     cards = (ArrayList) ndao.findAll();
+                    System.out.println("Taille du tableau "+cards.size());
                     itra = cards.iterator();
                     Noire n;
                     while(itra.hasNext()){
                         n = (Noire) itra.next();
+                        System.out.println(n.getTexte());
                         JSONObject obj = new JSONObject();
                         obj.put("id",n.getId());
                         obj.put("texte",n.getTexte());
@@ -86,6 +91,60 @@ public class server {
                 }
                 System.out.println(list.toJSONString());
                 se.getBasicRemote().sendText(list.toJSONString());
+                break;
+            case "AJOUT":
+                String data = msg.substring(msg.indexOf("{"));
+                JSONParser parser = new JSONParser();
+                JSONObject json = (JSONObject) parser.parse(data);
+                char type = 'b';
+                if (json.containsKey("piger")){
+                    type = 'n';
+                }
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                if (type == 'n'){
+                    NoireDao cdao = new NoireDao(Connexion.getInstance());
+                    Noire c = new Noire((String)json.get("texte"),(int)json.get("piger"));
+                    cdao.create(c);
+                }
+                else {
+                    BlancheDao cdao = new BlancheDao(Connexion.getInstance());
+                    Blanche c = new Blanche((String)json.get("texte"));
+                    cdao.create(c);
+                }
+                break;
+            case "SUPPRESSION":
+                String datas = msg.substring(msg.indexOf("{"));
+                JSONParser p = new JSONParser();
+                JSONObject js = (JSONObject) p.parse(datas);
+                char t = 'b';
+                if (js.containsKey("piger")){
+                    t = 'n';
+                }
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ERROR! Driver not found");
+                }
+                Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
+                Connexion.setUser("root");
+                Connexion.setPassword("root");
+                if (t == 'n'){
+                    NoireDao cdao = new NoireDao(Connexion.getInstance());
+                    cdao.delete((int)js.get("id"));
+                }
+                else {
+                    BlancheDao cdao = new BlancheDao(Connexion.getInstance());
+                    cdao.delete((int)js.get("id"));
+                }
                 break;
             case "SUBSCRIBE":
                 try {
@@ -421,7 +480,8 @@ public class server {
  
     @OnMessage
     public void onMessage(String message, Session session) throws IOException,
-            InterruptedException {
+            InterruptedException,
+            ParseException {
         System.out.println("User input: " + message);
         serverProcess(session, message);
     }

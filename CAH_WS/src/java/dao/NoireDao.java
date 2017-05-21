@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Noire;
@@ -26,7 +27,33 @@ public class NoireDao extends Dao<Noire> {
 
     @Override
     public boolean create(Noire x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String req = "INSERT INTO cartes_noires (`ID`, `Texte`, `Piger`)"
+                + "VALUES ('"
+                +x.getId()+"','"
+                +x.getTexte()+"','"
+                +x.getPiger()+"')";
+        Statement stm = null;
+        try {
+            stm = cnx.createStatement();
+            int n = stm.executeUpdate(req);
+            if (n > 0) {
+                stm.close();
+                return true;
+            }
+        } 
+        catch (SQLException exp) {
+        } finally {
+            if (stm != null) {
+                try {
+                    stm.close();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -42,6 +69,35 @@ public class NoireDao extends Dao<Noire> {
     @Override
     public boolean delete(Noire x) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public boolean delete(int id) {
+        Statement stm = null;
+	try 
+	{
+		stm = cnx.createStatement(); 
+		int n= stm.executeUpdate("DELETE FROM cartes_noires WHERE ID='"+id+"'");
+		if (n>0)
+		{
+			stm.close();
+			return true;
+		}
+	}
+	catch (SQLException exp)
+	{
+	}
+	finally
+	{
+		if (stm!=null)
+		try {
+			stm.close();
+		} catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
+	}
+	return false;
     }
 
     @Override
