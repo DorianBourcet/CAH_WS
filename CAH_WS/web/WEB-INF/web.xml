@@ -10,4 +10,12 @@
         <param-name>urlBd</param-name>
         <param-value>jdbc:mysql://localhost/cardsagainsthumanity?user=root&amp;password=root</param-value>
     </context-param>
+    <servlet>
+        <servlet-name>GetCard</servlet-name>
+        <servlet-class>httpServer.GetCard</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCard</servlet-name>
+        <url-pattern>/getcard.do</url-pattern>
+    </servlet-mapping>
 </web-app>
