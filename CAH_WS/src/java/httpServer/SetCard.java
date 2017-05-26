@@ -45,16 +45,16 @@ public class SetCard extends HttpServlet {
                 Connexion.setUrl("jdbc:mysql://localhost/cardsagainsthumanity");
                 Connexion.setUser("root");
                 Connexion.setPassword("root");
-                if (request.getParameter("type").equals("NOIR")){
+                if (request.getParameter("type").equals("NOIRE")){
                     NoireDao cdao = new NoireDao(Connexion.getInstance());
-                    Noire c = new Noire(request.getParameter("texte"),Integer.parseInt(request.getParameter("piger")));
+                    Noire c = new Noire(request.getParameter("texte").replaceAll("'","\\\\'"),Integer.parseInt(request.getParameter("piger")));
                     System.out.println(c);
                     cdao.create(c);
                     response.getWriter().write("creation de la carte noir fini");
                 }
-                else {
+                else if (request.getParameter("type").equals("BLANCHE")){
                     BlancheDao cdao = new BlancheDao(Connexion.getInstance());
-                    Blanche c = new Blanche(request.getParameter("texte"));
+                    Blanche c = new Blanche(request.getParameter("texte").replaceAll("'","\\\\'"));
                     cdao.create(c);
                     response.getWriter().write("creation de la carte blanche fini");
                 }
