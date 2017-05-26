@@ -14,8 +14,16 @@
         <servlet-name>GetCard</servlet-name>
         <servlet-class>httpServer.GetCard</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SetCard</servlet-name>
+        <servlet-class>httpServer.SetCard</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetCard</servlet-name>
-        <url-pattern>/getcard.do</url-pattern>
+        <url-pattern>/getcard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetCard</servlet-name>
+        <url-pattern>/setcard</url-pattern>
     </servlet-mapping>
 </web-app>
