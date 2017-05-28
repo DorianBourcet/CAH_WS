@@ -27,9 +27,8 @@ public class NoireDao extends Dao<Noire> {
 
     @Override
     public boolean create(Noire x) {
-        String req = "INSERT INTO cartes_noires (`ID`, `Texte`, `Piger`)"
+        String req = "INSERT INTO cartes_noires (`Texte`, `Piger`)"
                 + "VALUES ('"
-                +x.getId()+"','"
                 +x.getTexte()+"','"
                 +x.getPiger()+"')";
         Statement stm = null;

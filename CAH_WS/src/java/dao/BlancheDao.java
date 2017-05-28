@@ -27,9 +27,8 @@ public class BlancheDao extends Dao<Blanche> {
 
     @Override
     public boolean create(Blanche x) {
-        String req = "INSERT INTO cartes_blanches (`ID`, `Texte`)"
+        String req = "INSERT INTO cartes_blanches (`Texte`)"
                 + "VALUES ('"
-                +x.getId()+"','"
                 +x.getTexte()+"')";
         Statement stm = null;
         try {
